@@ -18,10 +18,18 @@
             <th>introduction:</th>
             <th><%= @user.introduction %></th>
           </tr>
+          <tr>
+        		<th>follows</th><!-- ここにリンク設置 -->
+        		<th><%= link_to @user.follower.count, following_user_path(@user.id) %></th>
+        	</tr>
+        	<tr>
+        		<th>followers</th><!-- ここにリンク設置 -->
+        		<th><%= link_to @user.followed.count, followers_user_path(@user.id) %></th>
+        	</tr>
         </tbody>
       </table>
       <div class = "row">
-        <%= link_to " ", edit_user_path(@user), class: "btn btn-outline-secondary btn-block fas fa-user-cog" %>
+        <%= render 'users/follow', user: current_user %>
       </div>
 
       <% if @book.errors.any? %>

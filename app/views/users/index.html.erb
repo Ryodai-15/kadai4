@@ -18,12 +18,19 @@
             <th>introduction:</th>
             <th><%= @user.introduction %></th>
           </tr>
-        </tbody>
+          <tr>
+        		<th>follows</th><!-- ここにリンク設置 -->
+        		<th><%= link_to @user.follower.count, following_user_path(@user.id) %></th>
+        	</tr>
+        	<tr>
+        		<th>followers</th><!-- ここにリンク設置 -->
+        		<th><%= link_to @user.followed.count, followers_user_path(@user.id) %></th>
+        	</tr>
       </table>
       <div class = "row">
-        <%= link_to " ", edit_user_path(@user), class: "btn btn-outline-secondary btn-block fas fa-user-cog" %>
+        <%= render 'users/follow', user: current_user %>
       </div>
-      
+
       <div class = "row">
         <%= render 'books/form', book: @book %>
       </div>
@@ -36,16 +43,27 @@
           <tr>
             <th>image</th>
             <th>name</th>
-            <th></th>
+            <th colspan="3"></th>
           </tr>
         </thead>
-        
+
         <tbody>
           <% @users.each do |user| %>
             <tr>
               <td><%= attachment_image_tag user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %></td>
               <td><%= user.name %></td>
               <td><%= user.introduction %></td>
+              <td><p><%= "フォロー数: #{user.follower.count}" %></p></td>
+    					<td><p><%= "フォロワー数: #{user.followed.count}" %></p></td>
+    					<td>
+    						<% unless user == current_user %>
+    						  <% if current_user.following?(user) %>
+    						    <%= link_to 'フォロー外す', unfollow_path(user.id), method: :POST %>
+    						  <% else %>
+    						    <%= link_to 'フォローする', follow_path(user.id), method: :POST %>
+    						  <% end %>
+    						<% end %>
+    					</td>
               <td><%= link_to 'Show', user_path(user.id) %></td>
             </tr>
           <% end %>

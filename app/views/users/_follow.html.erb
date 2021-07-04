@@ -1,0 +1,13 @@
+<div class="row">
+  <% if @user == current_user %>
+    <%= link_to " ", edit_user_path(@user), class: "btn btn-outline-secondary btn-block fas fa-user-cog col-lg-12" %>
+  <% end %>
+	<!-- フォロー機能 -->
+	<% unless @user == current_user %>
+	  <% if current_user.following?(@user) %>
+	    <%= link_to 'フォロー外す', unfollow_path(@user.id), method: :POST, class: "btn-sm btn-danger col-lg-12" %>
+	  <% else %>
+	    <%= link_to 'フォローする', follow_path(@user.id), method: :POST,class: "btn-sm btn-success col-lg-12" %>
+	  <% end %>
+	<% end %>
+</div>
