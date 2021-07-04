@@ -1,0 +1,33 @@
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2>error</h2>
+    <ul style = "color: red">
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+<h2>User info</h2>
+<%= form_with model: @user, local:true do |f| %>
+  <div class = "form-icon">
+    <table>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th><%= f.text_field :name %></th>
+        </tr>
+        <tr>
+          <th>Image</th>
+          <th><%= f.attachment_field :profile_image, placeholder:"プロフィール画像" %></th>
+        </tr>
+        <tr>
+          <th>Introduction</th>
+          <th><%= f.text_area :introduction %></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <%= f.submit "Update User" %>
+  <% end %>
